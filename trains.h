@@ -81,10 +81,10 @@ std::ostream& operator<<(std::ostream& os, const WagonSeries& series) {
     return os;
 }
 
-inline constinit WagonSeries STANDARD_FIRST_CLASS(WagonType::FIRST_CLASS);
-inline constinit WagonSeries STANDARD_SECOND_CLASS(WagonType::SECOND_CLASS);
-inline constinit WagonSeries STANDARD_SLEEPER(WagonType::SLEEPER);
-inline constinit WagonSeries STANDARD_DINING(WagonType::DINING);
+inline constexpr WagonSeries STANDARD_FIRST_CLASS(WagonType::FIRST_CLASS);
+inline constexpr WagonSeries STANDARD_SECOND_CLASS(WagonType::SECOND_CLASS);
+inline constexpr WagonSeries STANDARD_SLEEPER(WagonType::SLEEPER);
+inline constexpr WagonSeries STANDARD_DINING(WagonType::DINING);
 
 class Wagon {
     using unique_id_t = size_t;
