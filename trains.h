@@ -22,6 +22,8 @@ std::ostream& operator<<(std::ostream& os, const WagonType& type) {
         os << "sypialny";
     } else if (type == WagonType::DINING) {
         os << "restauracyjny";
+    } else {
+        throw std::runtime_error("Unhandled wagon type.");
     }
     return os;
 }
