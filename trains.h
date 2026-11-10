@@ -228,9 +228,9 @@ public:
         : designation_(designation.empty() ? "?" : designation),
           max_wagons_(max_wagons) {}
 
-    Locomotive(Locomotive&& other) {
-        designation_ = other.designation_;
-        max_wagons_ = other.max_wagons_;
+    Locomotive(Locomotive&& other)
+        : designation_(other.designation_),
+          max_wagons_(other.max_wagons_) {
 
         other.make_empty();
     }
