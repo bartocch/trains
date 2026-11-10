@@ -143,11 +143,13 @@ public:
     }
 
     void operator=(Wagon&& other) {
-        // TODO: skip when this == other
-        number_ = other.number_;
-        series_ = other.series_;
+        // Move only if rhs != rhs
+        if (*this != other) {
+            number_ = other.number_;
+            series_ = other.series_;
 
-        other.make_empty();
+            other.make_empty();
+        }
     }
 
     std::strong_ordering operator<=>(const Wagon& other) const {
@@ -226,18 +228,21 @@ public:
         : designation_(designation.empty() ? "?" : designation),
           max_wagons_(max_wagons) {}
 
-    Locomotive(Locomotive&& other) {    // TODO: check if same obj
+    Locomotive(Locomotive&& other) {
         designation_ = other.designation_;
         max_wagons_ = other.max_wagons_;
 
         other.make_empty();
     }
 
-    void operator=(Locomotive&& other) {    // TODO: check if same obj
-        designation_ = other.designation_;
-        max_wagons_ = other.max_wagons_;
+    void operator=(Locomotive&& other) {
+        // Move only if lhs != rhs
+        if (this != &other) {
+            designation_ = other.designation_;
+            max_wagons_ = other.max_wagons_;
 
-        other.make_empty();
+            other.make_empty();
+        }
     }
 
     // Returns true if not empty
