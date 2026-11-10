@@ -150,14 +150,18 @@ public:
         other.make_empty();
     }
 
-    int operator<=>(const Wagon& other) {
+    std::strong_ordering operator<=>(const Wagon& other) const {
         if (number_ < other.number_) {
-            return -1;
+            return std::strong_ordering::less;
         } else if (number_ > other.number_) {
-            return 1;
+            return std::strong_ordering::greater;
         } else {
-            return 0;
+            return std::strong_ordering::equal;
         }
+    }
+
+    bool operator==(const Wagon& other) const {
+        return number_ == other.number_;
     }
 
     operator WagonSeries() const {
