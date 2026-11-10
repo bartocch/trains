@@ -102,9 +102,16 @@ TEST_CASE("WagonSeries") {
 
 TEST_CASE("standard wagon series") {
     SUBCASE("properly initialized") {
-        CHECK(STANDARD_FIRST_CLASS == WagonSeries(WagonType::FIRST_CLASS));
-        CHECK(STANDARD_SECOND_CLASS == WagonSeries(WagonType::SECOND_CLASS));
-        CHECK(STANDARD_SLEEPER == WagonSeries(WagonType::SLEEPER));
-        CHECK(STANDARD_DINING == WagonSeries(WagonType::DINING));
+        CHECK(STANDARD_FIRST_CLASS.type() == WagonType::FIRST_CLASS);
+        CHECK(STANDARD_FIRST_CLASS.seats() == 54);
+
+        CHECK(STANDARD_SECOND_CLASS.type() == WagonType::SECOND_CLASS);
+        CHECK(STANDARD_SECOND_CLASS.seats() == 80);
+
+        CHECK(STANDARD_SLEEPER.type() == WagonType::SLEEPER);
+        CHECK(STANDARD_SLEEPER.seats() == 30);
+
+        CHECK(STANDARD_DINING.type() == WagonType::DINING);
+        CHECK(STANDARD_DINING.seats() == 32);
     }
 }
