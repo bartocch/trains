@@ -150,13 +150,13 @@ public:
     Wagon& operator=(Wagon&& other) {
         // Move only if rhs != rhs
         if (*this != other) {
+            if (*this) {
+                in_service_--;  // Since this wagon is getting replaced by another one
+            }
             number_ = other.number_;
             series_ = other.series_;
 
             other.make_empty();
-            if (!other && *this) {
-                in_service_--;
-            }
         }
 
         return *this;
