@@ -138,7 +138,10 @@ public:
             }
             series_ = other.series_;
         } else {
-            make_empty();
+            if (*this) {
+                make_empty();
+                in_service_--;
+            }
         }
     }
 
@@ -149,6 +152,9 @@ public:
             series_ = other.series_;
 
             other.make_empty();
+            if (!other && *this) {
+                in_service_--;
+            }
         }
     }
 
@@ -189,14 +195,9 @@ private:
         return ++last_number_;
     }
 
-    // Makes this wagon empty and decreases the number of wagons in service.
-    // Does nothing if the wagon is already empty.
     void make_empty() {
-        if (*this) {
-            number_ = 0;
-            series_ = STANDARD_FIRST_CLASS;
-            in_service_--;
-        }
+        number_ = 0;
+        series_ = STANDARD_FIRST_CLASS;
     }
 };
 
