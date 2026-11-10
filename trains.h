@@ -131,7 +131,7 @@ public:
         other.make_empty();
     }
 
-    void operator=(const Wagon& other) {
+    Wagon& operator=(const Wagon& other) {
         if (other) {
             if (!*this) {
                 number_ = build_new();
@@ -143,9 +143,11 @@ public:
                 in_service_--;
             }
         }
+
+        return *this;
     }
 
-    void operator=(Wagon&& other) {
+    Wagon& operator=(Wagon&& other) {
         // Move only if rhs != rhs
         if (*this != other) {
             number_ = other.number_;
@@ -156,6 +158,8 @@ public:
                 in_service_--;
             }
         }
+
+        return *this;
     }
 
     std::strong_ordering operator<=>(const Wagon& other) const {
@@ -236,7 +240,7 @@ public:
         other.make_empty();
     }
 
-    void operator=(Locomotive&& other) {
+    Locomotive& operator=(Locomotive&& other) {
         // Move only if lhs != rhs
         if (this != &other) {
             designation_ = other.designation_;
@@ -244,6 +248,8 @@ public:
 
             other.make_empty();
         }
+
+        return *this;
     }
 
     // Returns true if not empty
