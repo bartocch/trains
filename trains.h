@@ -89,9 +89,9 @@ inline constexpr WagonSeries STANDARD_SLEEPER(WagonType::SLEEPER);
 inline constexpr WagonSeries STANDARD_DINING(WagonType::DINING);
 
 class Wagon {
+public:
     using unique_id_t = size_t;
 
-public:
     static size_t ever_built() {
         return last_number_;
     }
