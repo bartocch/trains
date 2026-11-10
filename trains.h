@@ -176,8 +176,8 @@ public:
     }
 
 private:
-    static unique_id_t last_number_;    // TODO: constinit
-    static size_t in_service_;          // TODO: constinit?
+    inline static unique_id_t last_number_ = 0;
+    inline static size_t in_service_ = 0;
 
     WagonSeries series_;
     unique_id_t number_;
