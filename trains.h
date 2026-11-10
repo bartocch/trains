@@ -247,8 +247,8 @@ public:
     }
 
     // Returns true if not empty
-    operator bool() {
-        return designation_.empty();
+    explicit operator bool() const {
+        return !designation_.empty();
     }
 
 private:
