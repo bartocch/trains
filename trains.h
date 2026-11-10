@@ -264,7 +264,11 @@ private:
 
 // For printing a locomotive onto an output stream.
 std::ostream& operator<<(std::ostream& os, const Locomotive& locomotive) {
-    os << locomotive.designation() << " (uciąg: " << locomotive.max_wagons() << ")";
+    if (locomotive) {
+        os << locomotive.designation() << " (uciąg: " << locomotive.max_wagons() << ")";
+    } else {
+        os << "brak lokomotywy";
+    }
     return os;
 }
 
