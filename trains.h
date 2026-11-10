@@ -111,7 +111,7 @@ public:
           number_(0) {}
 
     ~Wagon() {
-        if (this) {
+        if (*this) {
             in_service_--;
         }
     }
@@ -133,7 +133,7 @@ public:
 
     void operator=(const Wagon& other) {
         if (other) {
-            if (!this) {
+            if (!*this) {
                 number_ = build_new();
             }
             series_ = other.series_;
@@ -186,7 +186,7 @@ private:
     // Makes this wagon empty and decreases the number of wagons in service.
     // Does nothing if the wagon is already empty.
     void make_empty() {
-        if (this) {
+        if (*this) {
             number_ = 0;
             series_ = STANDARD_FIRST_CLASS;
             in_service_--;
