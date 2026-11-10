@@ -88,6 +88,16 @@ TEST_CASE("WagonSeries") {
 
         CHECK(os.str() == expected_str);
     }
+
+    SUBCASE("can be used in constexpr expressions") {
+        constexpr WagonSeries ws1(WagonType::FIRST_CLASS);
+        constexpr WagonSeries ws2(WagonType::SECOND_CLASS, 200);
+        static_assert(ws1.seats() == 54);
+        static_assert(ws1.type() == WagonType::FIRST_CLASS);
+        static_assert(ws2.seats() == 200);
+        static_assert(ws2.type() == WagonType::SECOND_CLASS);
+        static_assert(ws1 != ws2);
+    }
 }
 
 TEST_CASE("standard wagon series") {
