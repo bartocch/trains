@@ -476,7 +476,7 @@ public:
 	}
 
 private:
-	// comparator, nescessary to use map with WagonSeries
+	// comparator, necessary to use map with WagonSeries
 	// the specific order is not important
 	struct WagonSeriesComparator {
         bool operator()(const WagonSeries& a, const WagonSeries& b) const {
