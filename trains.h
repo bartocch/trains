@@ -290,21 +290,30 @@ std::ostream& operator<<(std::ostream& os, const Locomotive& locomotive) {
 
 class Train {
 public:
-	Train(): seats_(0),locomotive_(), wagons_(){}
+	Train()
+        : seats_(0),
+          locomotive_(),
+          wagons_() {}
 
-	explicit Train(Locomotive locomotive): seats_(0), locomotive_(std::move(locomotive)){
+	explicit Train(Locomotive locomotive)
+        : seats_(0),
+          locomotive_(std::move(locomotive)) {
+
 		wagons_.reserve(locomotive_.max_wagons());
 	}
 
-	Train(Locomotive locomotive, std::initializer_list<Wagon> wagons): seats_(0), locomotive_(std::move(locomotive)){
+	Train(Locomotive locomotive, std::initializer_list<Wagon> wagons)
+        : seats_(0),
+          locomotive_(std::move(locomotive)) {
+
 		size_t capacity = locomotive_.max_wagons();
 		wagons_.reserve(capacity);
 
-		for(const Wagon& wagon:wagons){
-			if(capacity == 0) break;
+		for (const Wagon& wagon:wagons){
+			if (capacity == 0) break;
 
-			if(wagon) {
-				seats_+=wagon.series().seats();
+			if (wagon) {
+				seats_ += wagon.series().seats();
 				capacity--;
 				wagons_.push_back(wagon);
 			}
@@ -313,8 +322,8 @@ public:
 
 	Train(Train&& other)
         : seats_(other.seats_),
-        locomotive_(std::move(other.locomotive_)),
-        wagons_(std::move(other.wagons_)) {
+          locomotive_(std::move(other.locomotive_)),
+          wagons_(std::move(other.wagons_)) {
 
 		other.make_empty();
 	}
@@ -332,19 +341,18 @@ public:
 	}
 
 	Train& operator+=(const Wagon& wagon) {
-		if(!wagon) return *this;
-
-		if(wagons_.size()<locomotive_.max_wagons()) {
-			seats_+=wagon.series().seats();
+		if (!wagon) return *this;
+		if (wagons_.size() < locomotive_.max_wagons()) {
+			seats_ += wagon.series().seats();
 			wagons_.push_back(wagon);
 		}
 		return *this;
 	}
 
 	Train& operator+=(Wagon&& wagon) {
-		if(!wagon) return *this;
-		if(wagons_.size()<locomotive_.max_wagons()) {
-			seats_+=wagon.series().seats();
+		if (!wagon) return *this;
+		if (wagons_.size() < locomotive_.max_wagons()) {
+			seats_ += wagon.series().seats();
 			wagons_.push_back(std::move(wagon));
 		}
 		return *this;
@@ -372,30 +380,29 @@ public:
 
 	// Returns true if a locomotive is present
 	explicit operator bool() const {
-		if(locomotive_) return true;
+		if (locomotive_) return true;
 		return false;
 	}
 
 	// For printing a train onto an output stream.
 	friend std::ostream& operator<<(std::ostream& os, const Train& train) {
-		os << "Skład: "<<train.locomotive_;
-		for(const Wagon& wagon: train.wagons_){
-			os<<"\n\t"<<wagon;
+		os << "Skład: " << train.locomotive_;
+		for (const Wagon& wagon : train.wagons_) {
+			os << "\n\t" << wagon;
 		}
 		return os;
 	}
 
 private:
-// Makes this train empty.
+    // Makes this train empty.
     void make_empty() {
-		seats_=0;
+		seats_ = 0;
 		wagons_.clear();
     }
 
 	size_t seats_;
 	Locomotive locomotive_;
 	std::vector<Wagon> wagons_;
-
 };
 
 class Depot {
@@ -411,7 +418,7 @@ public:
 	Depot& operator=(Depot&& other) = default;
 
 	Depot& operator+=(Wagon&& wagon) {
-		if(!wagon) return *this;
+		if (!wagon) return *this;
 
 		wagons_[wagon.series()].push(std::move(wagon));
 		wagon_counter_++;
@@ -420,7 +427,7 @@ public:
 	}
 
 	Depot& operator+=(Locomotive&& locomotive) {
-		if(!locomotive) return *this;
+		if (!locomotive) return *this;
 
 		locomotives_.push(std::move(locomotive));
 		locomotive_counter_++;
@@ -449,12 +456,16 @@ public:
 		it->second.pop();
 		wagon_counter_--;
 
-    return wagon;
+        return wagon;
 	}
 
-	size_t locomotives() {return locomotive_counter_;}
+	size_t locomotives() {
+        return locomotive_counter_;
+    }
 
-	size_t wagons() {return wagon_counter_;}
+	size_t wagons() {
+        return wagon_counter_;
+    }
 
 	size_t wagons(WagonSeries series) {
 		auto it = wagons_.find(series);
@@ -507,36 +518,42 @@ Depot& main_depot() {
 
 class Dispatcher{
 public:
-	Dispatcher(): depot_(main_depot()) {};
+	Dispatcher()
+        : depot_(main_depot()) {}
 
-	Dispatcher(Depot& other): depot_(other) {};
+	Dispatcher(Depot& other)
+        : depot_(other) {}
 
-	Dispatcher(const Dispatcher& other): depot_(other.depot_) {};
+	Dispatcher(const Dispatcher& other)
+        : depot_(other.depot_) {}
 
 	Dispatcher& operator=(const Dispatcher& other) = delete;
 
-	Dispatcher(Dispatcher&& other): depot_(other.depot_) {};
+	Dispatcher(Dispatcher&& other)
+        : depot_(other.depot_) {};
 
 	Dispatcher& operator=(Dispatcher&& other) = delete;
 
 	const Depot& yard(){
 		return depot_;
 	}
-	Train assemble(WagonSeries series, size_t count){
 
+	Train assemble(WagonSeries series, size_t count){
 		Locomotive locomotive = depot_.release_locomotive();
-		if(!locomotive) return Train();
+		if (!locomotive) return Train();
 
 		Train train(std::move(locomotive));
 
-		for(size_t i=0;i<std::min(train.locomotive().max_wagons(),count);i++){
+		for (size_t i = 0; i < std::min(train.locomotive().max_wagons(), count); i++) {
 			Wagon wagon = depot_.release_wagon(series);
-			if(!wagon) break;
-			train+=std::move(wagon);
+			if (!wagon) break;
+			train += std::move(wagon);
 		}
 		return train;
 	}
+
 private:
 	Depot& depot_;
 };
+
 #endif
