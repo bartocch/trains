@@ -6,7 +6,7 @@
  * Utworzono:   27.10.2026
  */
 
-#include "trains.h"
+#include "../trains.h"
 
 #ifdef NDEBUG
     #undef NDEBUG

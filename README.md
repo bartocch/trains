@@ -12,5 +12,6 @@ make unit_tests
 
 ## Building
 
-- `make trains_example` - Builds the example
+- `make examples/trains_example` - Builds the example
+- `make examples/trains_example_part_1` - Builds an example that only uses classes from the 1st part of the task
 - `make unit_tests` - Builds the unit test runner
